@@ -19,7 +19,7 @@
             <TextBlock Text="Windows Rich Presence Engine" FontSize="11" Foreground="#666666" Margin="0,2,0,0"/>
         </StackPanel>
 
-        <!-- CARD: PODGLĄD DANYCH NA ŻYWO -->
+        <!-- CARD: podglad na zywo -->
         <Border Grid.Row="1" Background="#0A0A0A" BorderBrush="#1A1A1A" BorderThickness="1" CornerRadius="8" Padding="15" Margin="0,0,0,20">
             <StackPanel>
                 <TextBlock Text="LIVE DISCORD STATUS" FontSize="10" FontWeight="Bold" Foreground="#888888" Margin="0,0,0,10"/>
