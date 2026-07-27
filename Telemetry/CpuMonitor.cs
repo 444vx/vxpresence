@@ -12,7 +12,7 @@ namespace VxPresence.Telemetry
         public CpuMonitor()
         {
             _cpuCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
-            _cpuCounter.NextValue(); // Inicjalizacja pierwszej próbki
+            _cpuCounter.NextValue();
         }
 
         public float GetUsage()
