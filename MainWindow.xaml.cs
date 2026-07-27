@@ -12,7 +12,6 @@ namespace VxPresence
 {
     public partial class MainWindow : Window
     {
-        // ⚠️ PAMIĘTAJ O USUNIĘCIU SWOICH DANYCH PRZED COMMITEM NA GITHUB!
         private const string DISCORD_CLIENT_ID = "";
         private const string GITHUB_URL = "https://github.com/444vx/vxpresence"; 
 
