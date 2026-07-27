@@ -147,7 +147,6 @@ namespace VxPresence
                         }
                     }
 
-                    // Wysyłamy aktualizację do Discorda w każdym obiegu pętli
                     _discordService?.Update(details, state, startTime, isMedia, null, GITHUB_URL);
 
                     Dispatcher.Invoke(() =>
