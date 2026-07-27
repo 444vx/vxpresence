@@ -9,7 +9,6 @@ namespace VxPresence.Inspectors
         {
             try
             {
-                // OfType<ProcessModule>() bezpiecznie przefiltruje moduły procesów
                 var modules = process.Modules
                     .OfType<ProcessModule>()
                     .Select(m => m.ModuleName.ToLower());
