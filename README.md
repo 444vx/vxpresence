@@ -2,6 +2,10 @@ Markdown
 
 # VxPresence
 
+[![Downloads](https://img.shields.io/github/downloads/444vx/vxpresence/total?style=for-the-badge&color=blue)](https://github.com/444vx/vxpresence/releases)
+
+[![Ko-fi](https://img.shields.io/badge/Buy_Me_A_Coffee-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://ko-fi.com/pinkycake)
+
 A high-performance C# / WPF Discord Rich Presence Engine for Windows.
 
 ## Purpose and Core Philosophy
