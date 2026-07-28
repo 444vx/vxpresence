@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,7 +13,7 @@ namespace VxPresence
 {
     public partial class MainWindow : Window
     {
-        private const string DISCORD_CLIENT_ID = "";
+        private const string DISCORD_CLIENT_ID = "1531223190637117580";
         private const string GITHUB_URL = "https://github.com/444vx/vxpresence"; 
 
         private CpuMonitor? _cpuMonitor;
@@ -22,15 +23,69 @@ namespace VxPresence
         private DiscordPresenceService? _discordService;
 
         private CancellationTokenSource? _cts;
+        private System.Windows.Forms.NotifyIcon? _notifyIcon;
 
         public MainWindow()
         {
             InitializeComponent();
             
+            // Włączamy autostart domyślnie
+            AutostartManager.SetAutostart(true);
+            
             ChkAutostart.IsChecked = AutostartManager.IsAutostartEnabled();
             ChkAutostart.Click += ChkAutostart_Click;
 
+            // Inicjalizacja ikony w zasobniku systemowym (tray)
+            InitTrayIcon();
+
             StartEngine();
+        }
+
+        private void InitTrayIcon()
+        {
+            _notifyIcon = new System.Windows.Forms.NotifyIcon
+            {
+                Icon = System.Drawing.SystemIcons.Application,
+                Visible = true,
+                Text = "VxPresence Engine"
+            };
+
+            // Podwójne kliknięcie na ikonę w trayu przywraca okno
+            _notifyIcon.DoubleClick += (s, args) =>
+            {
+                Show();
+                WindowState = WindowState.Normal;
+                Activate();
+            };
+
+            // Menu pod prawym przyciskiem myszy na ikonie w trayu
+            var contextMenu = new System.Windows.Forms.ContextMenuStrip();
+            contextMenu.Items.Add("Otwórz okno", null, (s, e) =>
+            {
+                Show();
+                WindowState = WindowState.Normal;
+                Activate();
+            });
+            contextMenu.Items.Add("Zamknij całkowicie", null, (s, e) =>
+            {
+                _cts?.Cancel();
+                _discordService?.Dispose();
+                if (_notifyIcon != null)
+                {
+                    _notifyIcon.Visible = false;
+                    _notifyIcon.Dispose();
+                }
+                System.Windows.Application.Current.Shutdown();
+            });
+
+            _notifyIcon.ContextMenuStrip = contextMenu;
+        }
+
+        // Ukrycie okna do traya po kliknięciu 'X'
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            e.Cancel = true;
+            Hide();
         }
 
         private void StartEngine()
@@ -42,6 +97,7 @@ namespace VxPresence
                 _appInspector = new AppInspector();
                 _backgroundMonitor = new BackgroundAppMonitor();
                 _discordService = new DiscordPresenceService(DISCORD_CLIENT_ID);
+                _discordService.Initialize();
 
                 _cts = new CancellationTokenSource();
                 Task.Run(() => EngineLoop(_cts.Token));
@@ -133,7 +189,6 @@ namespace VxPresence
                             }
                             catch
                             {
-                                // Gdyby proces chwilowo nie odpowiedział lub został zamknięty
                                 details = "🖥️ Windows Desktop";
                                 state = "Active";
                             }
@@ -171,6 +226,11 @@ namespace VxPresence
         {
             _cts?.Cancel();
             _discordService?.Dispose();
+            if (_notifyIcon != null)
+            {
+                _notifyIcon.Visible = false;
+                _notifyIcon.Dispose();
+            }
             base.OnClosed(e);
         }
     }
