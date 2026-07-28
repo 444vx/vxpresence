@@ -41,8 +41,6 @@ Prerequisites
 
     Windows 10 or Windows 11 (64-bit)
 
-    .NET 8.0 SDK or later
-
     Discord Desktop Application
 
 Building from Source
@@ -56,7 +54,7 @@ Building from Source
     Set your Discord Application ID in MainWindow.xaml.cs:
     C#
 
-    private const string DISCORD_CLIENT_ID = "YOUR_DISCORD_CLIENT_ID_HERE";
+    private const string DISCORD_CLIENT_ID = "";
 
     Build and execute:
     Bash
